@@ -4,24 +4,54 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pie Pastry on Instagram</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 40px 20px; background: #fafafa; }
+    h2 { margin-bottom: 8px; }
+    p { color: #555; }
+    a.btn { display: block; max-width: 320px; margin: 14px auto; padding: 16px;
+            border-radius: 12px; text-decoration: none; font-size: 18px; color: #fff;
+            background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+    a.alt { background: #262626; }
+  </style>
 </head>
 <body>
-<p>Opening Instagram... <a href="https://www.instagram.com/piepastry.qa/">Tap here if nothing happens</a></p>
+  <h2>Pie Pastry</h2>
+  <p>Tap a button to open Instagram</p>
+
+  <a id="profile" class="btn" href="#">Open Profile</a>
+  <a id="links" class="btn alt" href="#">Open Bio Links</a>
+
 <script>
   var user = "piepastry.qa";
-  var web = "https://www.instagram.com/" + user + "/";
+  var webProfile = "https://www.instagram.com/" + user + "/";
+  var webLinks = "https://www.instagram.com/" + user + "/links/";
   var ua = navigator.userAgent;
+  var isAndroid = /Android/i.test(ua);
+  var isIOS = /iPhone|iPad|iPod/i.test(ua);
 
-  if (/Android/i.test(ua)) {
-    window.location = "intent://instagram.com/_u/" + user +
-      "/#Intent;package=com.instagram.android;scheme=https;S.browser_fallback_url=" +
-      encodeURIComponent(web) + ";end";
-  } else if (/iPhone|iPad|iPod/i.test(ua)) {
-    window.location = "instagram://user?username=" + user;
-    setTimeout(function () { window.location = web; }, 1500);
-  } else {
-    window.location = web;
+  function androidIntent(path, fallback) {
+    return "intent://instagram.com/_u/" + user + path +
+      "#Intent;package=com.instagram.android;scheme=https;S.browser_fallback_url=" +
+      encodeURIComponent(fallback) + ";end";
   }
+
+  var profileLink, linksLink;
+  if (isAndroid) {
+    profileLink = androidIntent("/", webProfile);
+    linksLink = androidIntent("/links/", webLinks);
+  } else if (isIOS) {
+    profileLink = "https://www.instagram.com/_u/" + user + "/";
+    linksLink = "https://www.instagram.com/_u/" + user + "/links/";
+  } else {
+    profileLink = webProfile;
+    linksLink = webLinks;
+  }
+
+  document.getElementById("profile").href = profileLink;
+  document.getElementById("links").href = linksLink;
+
+  // Automatic attempt (some phones allow it, some need the tap)
+  setTimeout(function () { window.location.href = profileLink; }, 300);
 </script>
 </body>
 </html>

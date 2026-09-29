@@ -3,55 +3,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pie Pastry on Instagram</title>
+  <title>Pie Pastry Links</title>
   <style>
     body { font-family: Arial, sans-serif; text-align: center; padding: 40px 20px; background: #fafafa; }
     h2 { margin-bottom: 8px; }
     p { color: #555; }
-    a.btn { display: block; max-width: 320px; margin: 14px auto; padding: 16px;
-            border-radius: 12px; text-decoration: none; font-size: 18px; color: #fff;
+    a.btn { display: block; max-width: 320px; margin: 20px auto; padding: 18px;
+            border-radius: 12px; text-decoration: none; font-size: 20px; color: #fff;
             background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
-    a.alt { background: #262626; }
   </style>
 </head>
 <body>
   <h2>Pie Pastry</h2>
-  <p>Tap a button to open Instagram</p>
-
-  <a id="profile" class="btn" href="#">Open Profile</a>
-  <a id="links" class="btn alt" href="#">Open Bio Links</a>
+  <p>Tap the button to open our links on Instagram</p>
+  <a id="links" class="btn" href="#">Open Bio Links</a>
 
 <script>
   var user = "piepastry.qa";
-  var webProfile = "https://www.instagram.com/" + user + "/";
-  var webLinks = "https://www.instagram.com/" + user + "/links/";
+  var web = "https://www.instagram.com/" + user + "/links/";
   var ua = navigator.userAgent;
-  var isAndroid = /Android/i.test(ua);
-  var isIOS = /iPhone|iPad|iPod/i.test(ua);
+  var target;
 
-  function androidIntent(path, fallback) {
-    return "intent://instagram.com/_u/" + user + path +
+  if (/Android/i.test(ua)) {
+    target = "intent://instagram.com/_u/" + user + "/links/" +
       "#Intent;package=com.instagram.android;scheme=https;S.browser_fallback_url=" +
-      encodeURIComponent(fallback) + ";end";
-  }
-
-  var profileLink, linksLink;
-  if (isAndroid) {
-    profileLink = androidIntent("/", webProfile);
-    linksLink = androidIntent("/links/", webLinks);
-  } else if (isIOS) {
-    profileLink = "https://www.instagram.com/_u/" + user + "/";
-    linksLink = "https://www.instagram.com/_u/" + user + "/links/";
+      encodeURIComponent(web) + ";end";
+  } else if (/iPhone|iPad|iPod/i.test(ua)) {
+    target = "https://www.instagram.com/_u/" + user + "/links/";
   } else {
-    profileLink = webProfile;
-    linksLink = webLinks;
+    target = web;
   }
 
-  document.getElementById("profile").href = profileLink;
-  document.getElementById("links").href = linksLink;
+  document.getElementById("links").href = target;
 
-  // Automatic attempt (some phones allow it, some need the tap)
-  setTimeout(function () { window.location.href = profileLink; }, 300);
+  // Automatic attempt (some phones allow it, others need the tap)
+  setTimeout(function () { window.location.href = target; }, 300);
 </script>
 </body>
 </html>

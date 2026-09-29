@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pie Pastry on Instagram</title>
+</head>
+<body>
+<p>Opening Instagram... <a href="https://www.instagram.com/piepastry.qa/">Tap here if nothing happens</a></p>
+<script>
+  var user = "piepastry.qa";
+  var web = "https://www.instagram.com/" + user + "/";
+  var ua = navigator.userAgent;
+
+  if (/Android/i.test(ua)) {
+    window.location = "intent://instagram.com/_u/" + user +
+      "/#Intent;package=com.instagram.android;scheme=https;S.browser_fallback_url=" +
+      encodeURIComponent(web) + ";end";
+  } else if (/iPhone|iPad|iPod/i.test(ua)) {
+    window.location = "instagram://user?username=" + user;
+    setTimeout(function () { window.location = web; }, 1500);
+  } else {
+    window.location = web;
+  }
+</script>
+</body>
+</html>
